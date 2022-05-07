@@ -1,0 +1,14 @@
+.header {
+  height: 8rem;
+  background: #f4f6fe;
+
+  &__logoText {
+    padding: 2rem 8rem;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.6rem;
+    color: #9f6ed3;
+    letter-spacing: 0.2rem;
+  }
+}
