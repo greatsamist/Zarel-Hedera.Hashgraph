@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../styles/nav.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 function Nav() {
   const router = useRouter();
   const activeLink = (
@@ -21,7 +22,7 @@ function Nav() {
   return (
     <div className={styles.card}>
       {activeLink("/dashboard", "Dashboard")}
-      {activeLink("/Stake", "stake")}
+      {activeLink("/Stake", "Stake")}
       {activeLink("/Borrow", "Borrow")}
     </div>
   );
