@@ -1,0 +1,61 @@
+.root {
+  margin: 3rem auto;
+  width: 60%;
+  font-size: small;
+  font-weight: 600;
+  font-weight: 800;
+}
+.container {
+  background: #9f6ed30d;
+  box-shadow: 0px 4px 4px #9f6ed31f;
+  border-radius: 10px;
+  color: #00000080;
+  padding: 5rem;
+}
+.list,
+.amount {
+  width: 100%;
+  padding: 1rem;
+  outline: none;
+  border: none;
+  background-color: #ffffff;
+  color: #00000080;
+}
+.amount {
+  margin: 5rem 0;
+  display: flex;
+  place-content: space-between;
+}
+.placeholder,
+.max {
+  border: none;
+  background: none;
+  outline: none;
+}
+.max {
+  cursor: pointer;
+  color: inherit;
+}
+.days {
+  width: fit-content;
+  border: none;
+  color: inherit;
+  margin: 1rem;
+  padding: 1rem;
+  outline: none;
+  background: #fff;
+}
+.stake {
+  width: fit-content;
+  border: none;
+  color: #fff;
+  margin: 1rem;
+  padding: 1rem 3rem;
+  outline: none;
+  background: #8bc992;
+  border-radius: 1rem;
+}
+.stakeBTN {
+  display: flex;
+  place-content: center;
+}

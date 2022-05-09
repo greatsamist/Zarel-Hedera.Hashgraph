@@ -1,0 +1,53 @@
+.root {
+  margin: 3rem auto;
+  width: fit-content;
+  font-size: small;
+  font-weight: 600;
+}
+
+.claim:hover {
+  background: #9f6ed3;
+  color: #fff;
+}
+.claim {
+  padding: 0.5rem 2rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  background: #979797;
+  color: #fff;
+}
+.restake:hover {
+  color: #9f6ed3;
+  background: #dae1fd;
+  padding: 0.5rem 2rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.table {
+  border-spacing: 4rem;
+  background: #f4f6fe;
+  color: #979797;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.head {
+  color: #1b1940;
+}
+
+.History_Table {
+  border-spacing: 4rem;
+  margin-top: 10rem;
+  color: #97979780;
+}
+.caption {
+  text-align: left;
+  margin-bottom: -2rem;
+  color: #1b1940b2;
+  margin-left: 4rem;
+}
+.history_head {
+  color: #1b1940b2;
+}
+.addr {
+  color: #00000080;
+}

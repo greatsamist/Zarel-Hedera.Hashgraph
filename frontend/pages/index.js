@@ -2,8 +2,8 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Homepage from "../components/Homepage";
-
 import styles from "../styles/Home.module.scss";
+// import Dashboard from "./dashboard";
 
 export default function Home() {
   return (
@@ -18,6 +18,7 @@ export default function Home() {
       </Head>
 
       <Header />
+
       <main className={styles.main}>
         <Homepage />
       </main>

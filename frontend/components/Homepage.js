@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../styles/Homepage.module.scss";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Homepage() {
   return (
@@ -11,7 +12,9 @@ export default function Homepage() {
             Increase your earnings by staking tokens and receive annual
             percentage yield (APY) in return 💰
           </p>
-          <button className={styles.heroBtn}>Connect wallet</button>
+          <Link href="/dashboard">
+            <button className={styles.heroBtn}>Connect wallet</button>
+          </Link>
         </div>
         <div className={styles.heroImg}>
           <img src="/iPhone13Mockup.svg" width={300} height={350} />

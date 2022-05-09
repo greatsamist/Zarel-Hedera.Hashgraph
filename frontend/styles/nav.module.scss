@@ -1,0 +1,19 @@
+.card {
+  display: flex;
+  place-content: center;
+  margin: 3rem;
+}
+.item {
+  background: #f4f6fe;
+  color: #9f6ed3;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-right: 3px solid #9f6ed31a;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  outline: none;
+}
+.item:active {
+  background: #9f6ed3;
+  color: #fff;
+}
