@@ -1,20 +1,17 @@
 .homepage {
   font-size: 1.2rem;
-  padding: 6rem;
+  margin-bottom: 6rem;
+  padding: 0 4rem 0 4rem;
 }
 
 .heroSection {
-  // padding: 1rem;
-  // margin-bottom: 4rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 4rem;
-  align-content: center;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .heroText {
-  justify-items: center;
-  align-content: center;
   font-family: "Manrope";
   font-style: normal;
   font-weight: 400;
@@ -22,6 +19,7 @@
 }
 
 .heroImage {
+  align-items: flex-start;
 }
 
 .heroBtn {

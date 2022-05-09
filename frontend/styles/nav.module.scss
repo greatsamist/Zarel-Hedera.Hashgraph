@@ -4,7 +4,9 @@
   margin: 3rem;
 }
 .item {
+  width: 12rem;
   background: #f4f6fe;
+  font-family: inherit;
   color: #9f6ed3;
   border: none;
   padding: 1rem 1.5rem;
@@ -12,8 +14,9 @@
   border-radius: 0.4rem;
   cursor: pointer;
   outline: none;
-}
-.item:active {
-  background: #9f6ed3;
-  color: #fff;
+
+  &__active {
+    background: #9f6ed3;
+    color: #fff;
+  }
 }

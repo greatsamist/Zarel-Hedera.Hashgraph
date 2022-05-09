@@ -40,6 +40,7 @@
   width: fit-content;
   border: none;
   color: inherit;
+  font-family: inherit;
   margin: 1rem;
   padding: 1rem;
   outline: none;
@@ -57,5 +58,6 @@
 }
 .stakeBTN {
   display: flex;
+  font-family: inherit;
   place-content: center;
 }

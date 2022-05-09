@@ -2,12 +2,16 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Homepage from "../components/Homepage";
-import styles from "../styles/Home.module.scss";
-// import Dashboard from "./dashboard";
+
+const { hethers } = require("@hashgraph/hethers");
 
 export default function Home() {
+  const [isConnect, setIsConnect] = useState("");
+  // available default providers ['mainnet', 'testnet', 'previewnet']
+  const defaultProvider = hethers.providers.getDefaultProvider("testnet");
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Zarel Finance</title>
         <meta
@@ -18,10 +22,7 @@ export default function Home() {
       </Head>
 
       <Header />
-
-      <main className={styles.main}>
-        <Homepage />
-      </main>
+      <Homepage />
       <Footer />
     </div>
   );
