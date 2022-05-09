@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Homepage from "../components/Homepage";
@@ -7,8 +8,8 @@ const { hethers } = require("@hashgraph/hethers");
 
 export default function Home() {
   const [isConnect, setIsConnect] = useState("");
-  // available default providers ['mainnet', 'testnet', 'previewnet']
-  const defaultProvider = hethers.providers.getDefaultProvider("testnet");
+  // available providers ['mainnet', 'testnet', 'previewnet']
+  const Provider = hethers.providers.getDefaultProvider("testnet");
 
   return (
     <div>
