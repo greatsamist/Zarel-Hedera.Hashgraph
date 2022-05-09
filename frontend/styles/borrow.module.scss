@@ -1,0 +1,62 @@
+.root {
+  margin: 3rem auto;
+  width: 60%;
+  font-size: small;
+  font-weight: 600;
+  font-weight: 800;
+}
+.container {
+  background: #9f6ed30d;
+  box-shadow: 0px 4px 4px #9f6ed31f;
+  border-radius: 10px;
+  color: #00000080;
+  padding: 5rem;
+}
+.contain {
+  display: flex;
+  place-content: space-between;
+}
+.list {
+  width: 80%;
+  padding: 1rem;
+  margin: 0 3rem;
+  outline: none;
+  border: none;
+  background-color: #ffffff;
+  color: #00000080;
+}
+.amount {
+  width: 80%;
+  padding: 1rem;
+  margin: 3rem;
+  background: #97979763;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  outline: none;
+}
+.calculate {
+  outline: none;
+  border: none;
+  background: #9f6ed31f;
+  border-radius: 10px;
+  color: #00000080;
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+.apply {
+  width: fit-content;
+  border: none;
+  color: #fff;
+  margin: 1rem;
+  padding: 1rem 3rem;
+  outline: none;
+  background: #8bc992;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.applyBTN {
+  display: flex;
+  place-content: center;
+}
