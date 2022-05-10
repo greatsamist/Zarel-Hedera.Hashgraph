@@ -11,7 +11,7 @@ export default function Footer() {
               <h3>About</h3>
             </li>
             <li>
-              <a href={"url"}>medium</a>
+              <a href={"url"}>Medium</a>
             </li>
             <li>
               <a href={"url"}>Discord</a>
@@ -20,10 +20,10 @@ export default function Footer() {
               <a href={"url"}>Twitter</a>
             </li>
             <li>
-              <a href={"url"}>reddit</a>
+              <a href={"url"}>Reddit</a>
             </li>
             <li>
-              <a href={"url"}>blog</a>
+              <a href={"url"}>Blog</a>
             </li>
           </ul>
         </div>
