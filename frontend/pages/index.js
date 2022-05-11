@@ -6,22 +6,18 @@ import Header from "../components/Header";
 import Homepage from "../components/Homepage";
 
 import { HashConnect } from "hashconnect";
-import {
+
+const {
   TransferTransaction,
   AccountId,
   ContractExecuteTransaction,
-} from "@hashgraph/sdk";
-
-const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
-const tokenAddr = TokenAddress.toSolidityAddress();
-
-const contractId = AccountId.fromString(process.env.CONTRACT_ID);
+} = require("@hashgraph/sdk");
 
 export default function Home() {
   // track whether a user is connected or not
   const [connected, setConnected] = useState(false);
 
-  let hashconnect;
+  let hashconnect = new HashConnect();
 
   let saveData = {
     topic: "",
@@ -39,7 +35,7 @@ export default function Home() {
 
   const ConnectWallet = async () => {
     //create the hashconnect instance
-    hashconnect = new HashConnect();
+    // hashconnect = new HashConnect();
 
     // if (!loadLocalData()) {
     //first init and store the private for later
@@ -67,7 +63,7 @@ export default function Home() {
       pairingData.accountIds.forEach((id) => {
         saveData.pairedAccounts.push(id);
         setConnected(true);
-        console.log(saveData.pairedAccounts);
+        console.log(saveData.pairedAccounts[0]);
       });
       // saveDataInLocalstorage();
     });
@@ -119,6 +115,10 @@ export default function Home() {
       saveData.pairedAccounts[0]
     );
     const signer = hashconnect.getSigner(provider);
+    const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
+    const tokenAddr = TokenAddress.toSolidityAddress();
+
+    const contractId = AccountId.fromString(process.env.CONTRACT_ID);
 
     const contractExecTx = await new ContractExecuteTransaction()
       .setContractId(contractId)
@@ -132,6 +132,12 @@ export default function Home() {
     const res = await contractExecTx.executeWithSigner(signer);
 
     console.log(`- Token association with Contract's account: ${res} \n`);
+  };
+
+  const AccountBalanceTest = async () => {
+    let res = await provider.getAccountBalance(saveData.pairedAccounts[0]);
+
+    console.log("got account balance", res);
   };
   return (
     <div>

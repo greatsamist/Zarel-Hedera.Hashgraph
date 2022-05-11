@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.11;
 
+///////////////////////////////////////////////////////////////////////////
+// To avoid over collateralization of token,
+// only 80% value will be giving to the borrower from the collateral value
+// for a 30 days period. => Example.  if borrower collateral is valued at 500,
+// the amount of loan the user get is 400 for 30 days OR
+// 450 tokens for a 15 day period loan time. If the value of the collateral
+// drops below loan amount, the borrower risk their collateral been liquidated.
+///////////////////////////////////////////////////////////////////////////
+
 import "./hip-206/HederaTokenService.sol";
 import "./hip-206/HederaResponseCodes.sol";
 
@@ -20,11 +29,14 @@ contract ZarelBorrow is HederaTokenService {
     IERC20 public immutable ZarelToken;
     IERC721 public immutable ZarelNFT;
 
-    int64 public floorPrice;
+    // set floor price of a token
+    mapping(address => int64) TokenFloorPrice;
+
     // fee to experiment with, when there is a default in payment
     int16 constant fee = 100;
-    //// an array of NFTs
-    uint64[] Nfts;
+
+    //// an array of LiquidatedNfts
+    mapping(address => uint64[]) LiquidatedNfts;
 
     address admin;
     address NftToken;
@@ -35,7 +47,7 @@ contract ZarelBorrow is HederaTokenService {
         int64 serialNumber;
         int64 balance;
         bool isActive;
-        address lender;
+        address borrower;
     }
     mapping(address => Borrower) public BorrowerDetails;
 
@@ -63,11 +75,11 @@ contract ZarelBorrow is HederaTokenService {
         _;
     }
 
-    function Borrow(address sender, int64 _serialNumber)
-        public
-        IsMember(sender)
-        returns (bool)
-    {
+    function Borrow(
+        address sender,
+        address _tokenAddr,
+        int64 _serialNumber
+    ) public IsMember(sender) returns (bool) {
         require(sender == msg.sender);
         Borrower storage b = BorrowerDetails[sender];
         uint256 Id = uint64(_serialNumber);
@@ -86,15 +98,16 @@ contract ZarelBorrow is HederaTokenService {
             revert("NFT Transfer Failed");
         }
         // transfer zarel token to user
+        int64 floorPrice = TokenFloorPrice[_tokenAddr];
         require(
             ZarelToken.transfer(sender, uint64(floorPrice)),
             "Token transfer failed"
         );
-        // update lender details
+        // update borrower details
         b.balance = floorPrice;
         b.time = uint40(block.timestamp);
         b.serialNumber = _serialNumber;
-        b.lender = sender;
+        b.borrower = sender;
         b.isActive = true;
 
         return true;
@@ -157,16 +170,30 @@ contract ZarelBorrow is HederaTokenService {
         b.isActive = false;
     }
 
+    function userTokenAssociate(address _tokenAddress) external onlyAdmin {
+        int256 response = HederaTokenService.associateToken(
+            msg.sender,
+            _tokenAddress
+        );
+
+        if (response != HederaResponseCodes.SUCCESS) {
+            revert("Associate Failed");
+        }
+    }
+
     ////////////////////////////////////////////////////
     //=================== onlyAdmin =================//
 
-    function setFloorPrice(int64 _floorPrice) public onlyAdmin returns (int64) {
-        floorPrice = _floorPrice;
-        return floorPrice;
+    function setFloorPrice(address _tokenAddr, int64 _floorPrice)
+        public
+        onlyAdmin
+    {
+        TokenFloorPrice[_tokenAddr] = _floorPrice;
     }
 
-    function TokenBalance() public view onlyAdmin {
-        ZarelToken.balanceOf(address(this));
+    function TokenBalance() public view onlyAdmin returns (uint256) {
+        uint256 balance = ZarelToken.balanceOf(address(this));
+        return balance;
     }
 
     function NFTBalance() public view onlyAdmin returns (uint256) {
@@ -175,7 +202,7 @@ contract ZarelBorrow is HederaTokenService {
         return balance;
     }
 
-    function getNFts(int64 serialNumber) public onlyAdmin {
+    function getNFt(int64 serialNumber) public onlyAdmin {
         int256 response2 = HederaTokenService.transferNFT(
             NftToken,
             address(this),
@@ -188,10 +215,10 @@ contract ZarelBorrow is HederaTokenService {
         }
     }
 
-    function tokenAssociate(address _address) external onlyAdmin {
+    function tokenAssociate(address _tokenAddress) external onlyAdmin {
         int256 response = HederaTokenService.associateToken(
             address(this),
-            _address
+            _tokenAddress
         );
 
         if (response != HederaResponseCodes.SUCCESS) {
