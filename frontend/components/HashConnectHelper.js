@@ -1,3 +1,4 @@
+import { Provider } from "@hashgraph/sdk";
 import { HashConnect } from "hashconnect";
 
 async function walletConnectFcn() {

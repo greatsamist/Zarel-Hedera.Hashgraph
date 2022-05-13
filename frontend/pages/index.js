@@ -5,8 +5,6 @@ import Header from "../components/Header";
 import Homepage from "../components/Homepage";
 import walletConnectFcn from "../components/HashConnectHelper";
 
-import { HashConnect } from "hashconnect";
-
 import {
   TransferTransaction,
   ContractFunctionParameters,
@@ -15,74 +13,6 @@ import {
 } from "@hashgraph/sdk";
 
 require("dotenv").config();
-
-// let accountId = "";
-
-// const ConnectWallet = async () => {
-//create the hashconnect instance
-// hashconnect = new HashConnect();
-// if (!loadLocalData()) {
-//   //first init and store the private for later
-//   let initData = await hashconnect.init(appMetadata);
-//   saveData.privateKey = initData.privKey;
-//   //then connect, storing the new topic for later
-//   let state = await hashconnect.connect();
-//   saveData.topic = state.topic;
-//   console.log("Topic is" + saveData.topic);
-//   //generate a pairing string, which you can display and generate a QR code from
-//   saveData.pairingString = hashconnect.generatePairingString(
-//     state,
-//     "testnet",
-//     false
-//   );
-//find any supported local wallets
-// hashconnect.findLocalWallets();
-// hashconnect.connectToLocalWallet(saveData.pairingString);
-// hashconnect.pairingEvent.on((pairingData) => {
-//   pairingData.accountIds.forEach((id) => {
-//     saveData.pairedAccounts.push(id);
-//     accountId = id;
-//     // setConnected(true);
-//     console.log(saveData.pairedAccounts[0]);
-//   });
-//   // saveDataInLocalstorage();
-// });
-// } else {
-//   //   //use loaded data for initialization + connection
-//   await hashconnect.init(appMetadata, saveData.privateKey);
-//   await hashconnect.connect(saveData.topic, saveData.pairedWalletData);
-// }
-// const requestAccountInfo = async () => {
-//   let request = {
-//     topic: saveData.topic,
-//     network: "testnet",
-//     multiAccount: true,
-//   };
-//   await hashconnect.requestAdditionalAccounts(saveData.topic, request);
-// };
-// function saveDataInLocalstorage() {
-//   let data = JSON.stringify(saveData);
-//   localStorage.setItem("hashconnectData", data);
-// }
-// function loadLocalData() {
-//   let foundData = localStorage.getItem("hashconnectData");
-//   if (foundData) {
-//     saveData = JSON.parse(foundData);
-//     console.log(saveData);
-//     // setConnected(true);
-//     console.log(saveData.pairedAccounts);
-//     return true;
-//   } else {
-//     // setConnected(false);
-//     return false;
-//   }
-// }
-// };
-// const AccountBalanceTest = async () => {
-//   let res = await provider.getNetwork(saveData.pairedAccounts[0]);
-
-//   console.log("got account balance", res);
-// };
 
 function Home() {
   const [walletData, setWalletData] = useState();
@@ -103,14 +33,31 @@ function Home() {
           console.log(`🔌Account ${id} connected⚡✅`);
         });
       });
+      console.log(wData);
       setWalletData(wData);
     }
   }
 
+  async function AccountBalanceTest() {
+    console.log(walletData[1]);
+    let provider = walletData[0].getProvider(
+      "testnet",
+      walletData[1].topic,
+      accountId
+    );
+    let res = await provider.getAccountBalance(accountId);
+
+    console.log("got account balance", res);
+  }
+
   async function associateToken() {
-    let provider = wData[0].getProvider("testnet", saveData.topic, accountId);
-    console.log(saveData);
-    let signer = wData[0].getSigner(provider);
+    let provider = walletData[0].getProvider(
+      "testnet",
+      walletData[1].topic,
+      accountId
+    );
+    console.log(walletData[1]);
+    let signer = walletData[0].getSigner(provider);
     // const TokenAddress = Number("0.0.34386412");
     // const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
     const TokenAddress = AccountId.fromString("0.0.34356109");
@@ -127,9 +74,9 @@ function Home() {
       .freezeWithSigner(signer);
 
     const res = await contractExecTx.executeWithSigner(signer);
-    // const resRx = await res.getRecord(signer);
+    const resRx = await res.getReceipt(signer);
 
-    console.log(`- Token association with Contract's account: ${res} \n`);
+    console.log(`- Token association with Contract's account: ${resRx} \n`);
   }
   return (
     <div>
@@ -147,7 +94,7 @@ function Home() {
         connected={connected}
         accountId={accountId}
       />
-      {/* <button onClick={associateToken}>Associate</button> */}
+      {/* <button onClick={AccountBalanceTest}>Associate</button> */}
       <Homepage connectWallet={connectWallet} connected={connected} />
       <Footer />
     </div>
