@@ -78,31 +78,6 @@ require("dotenv").config();
 //   }
 // }
 // };
-// const associateToken = async () => {
-//   let provider = hashconnect.getProvider("testnet", saveData.topic, accountId);
-//   console.log(saveData);
-//   let signer = hashconnect.getSigner(provider);
-//   // const TokenAddress = Number("0.0.34386412");
-//   // const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
-//   const TokenAddress = AccountId.fromString("0.0.34356109");
-//   const tokenAddr = TokenAddress.toSolidityAddress();
-//   const contractId = AccountId.fromString("0.0.34738208");
-
-//   const contractExecTx = await new ContractExecuteTransaction()
-//     .setContractId("0.0.34738208")
-//     .setGas(3000000)
-//     .setFunction(
-//       "tokenAssociate",
-//       new ContractFunctionParameters().addAddress(tokenAddr)
-//     )
-//     .freezeWithSigner(signer);
-
-//   const res = await contractExecTx.executeWithSigner(signer);
-//   // const resRx = await res.getRecord(signer);
-
-//   console.log(`- Token association with Contract's account: ${res} \n`);
-// };
-
 // const AccountBalanceTest = async () => {
 //   let res = await provider.getNetwork(saveData.pairedAccounts[0]);
 
@@ -131,6 +106,31 @@ function Home() {
       setWalletData(wData);
     }
   }
+
+  async function associateToken() {
+    let provider = wData[0].getProvider("testnet", saveData.topic, accountId);
+    console.log(saveData);
+    let signer = wData[0].getSigner(provider);
+    // const TokenAddress = Number("0.0.34386412");
+    // const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
+    const TokenAddress = AccountId.fromString("0.0.34356109");
+    const tokenAddr = TokenAddress.toSolidityAddress();
+    const contractId = AccountId.fromString("0.0.34738208");
+
+    const contractExecTx = await new ContractExecuteTransaction()
+      .setContractId("0.0.34738208")
+      .setGas(3000000)
+      .setFunction(
+        "tokenAssociate",
+        new ContractFunctionParameters().addAddress(tokenAddr)
+      )
+      .freezeWithSigner(signer);
+
+    const res = await contractExecTx.executeWithSigner(signer);
+    // const resRx = await res.getRecord(signer);
+
+    console.log(`- Token association with Contract's account: ${res} \n`);
+  }
   return (
     <div>
       <Head>
@@ -142,9 +142,13 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header connectWallet={connectWallet} connected={connected} accountId={accountId} />
+      <Header
+        connectWallet={connectWallet}
+        connected={connected}
+        accountId={accountId}
+      />
       {/* <button onClick={associateToken}>Associate</button> */}
-      <Homepage connected={connected} />
+      <Homepage connectWallet={connectWallet} connected={connected} />
       <Footer />
     </div>
   );

@@ -14,12 +14,11 @@
 }
 .contain {
   display: flex;
-  place-content: space-between;
+  flex-direction: column;
 }
 .list {
   width: 80%;
   padding: 1rem;
-  margin: 0 3rem;
   outline: none;
   border: none;
   background-color: #ffffff;
@@ -27,13 +26,12 @@
   cursor: pointer;
 }
 .amount {
-  width: 80%;
+  width: 20%;
   padding: 1rem;
-  margin: 3rem;
-  background: #97979763;
+  background: #97979716;
   border-radius: 10px;
   border: none;
-  color: #fff;
+  color: #00000080;
   outline: none;
 }
 .calculate {
@@ -76,4 +74,8 @@
   outline: none;
   background: #fff;
   cursor: pointer;
+}
+
+.warning {
+  color: #ff0000;
 }

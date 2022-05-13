@@ -3,7 +3,7 @@ import styles from "../styles/Homepage.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Homepage({ connected }) {
+export default function Homepage({ connectWallet, connected }) {
   return (
     <div className={styles.homepage}>
       <div className={styles.heroSection}>
@@ -14,10 +14,12 @@ export default function Homepage({ connected }) {
           </p>
           {connected ? (
             <Link href="/dashboard">
-              <button className={styles.heroBtn}>Goto App</button>
+              <button className={styles.heroBtn}>Go to App</button>
             </Link>
           ) : (
-            <button className={styles.heroBtn}>Connect wallet</button>
+            <button onClick={connectWallet} className={styles.heroBtn}>
+              Go to App
+            </button>
           )}
         </div>
         <div className={styles.heroImg}>
