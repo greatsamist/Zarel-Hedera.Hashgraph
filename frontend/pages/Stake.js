@@ -11,7 +11,9 @@ function Stake() {
         <Nav />
         <div className={styles.container}>
           <select className={styles.list}>
-            <option className={styles.li}>Token</option>
+            <option disabled selected className={styles.li}>
+              Select Token to stake
+            </option>
             <option className={styles.li}>Token</option>
             <option className={styles.li}>Token</option>
             <option className={styles.li}>Token</option>
@@ -24,7 +26,7 @@ function Stake() {
             />
             <button className={styles.max}>max</button>
           </div>
-          <label>Choose staking period</label>
+          <label className={styles.label}>Choose staking period</label>
           <div>
             <button className={styles.days}>7 days</button>
             <button className={styles.days}>30 days</button>

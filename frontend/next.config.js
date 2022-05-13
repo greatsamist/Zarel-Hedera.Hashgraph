@@ -10,11 +10,17 @@ const withTM = require("next-transpile-modules")([
 
 module.exports = nextConfig;
 
-module.exports = withTM({});
+// module.exports = withTM({});
 module.exports = withTM({
   webpack5: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, tls: false, net: false, dns: false };
+    config.resolve.fallback = {
+      fs: false,
+      // tls: false,
+      // net: false,
+      // dns: false,
+      // framer: false,
+    };
 
     return config;
   },

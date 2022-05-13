@@ -3,7 +3,7 @@ import styles from "../styles/Homepage.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Homepage() {
+export default function Homepage({ connected }) {
   return (
     <div className={styles.homepage}>
       <div className={styles.heroSection}>
@@ -12,9 +12,13 @@ export default function Homepage() {
             Increase your earnings by staking tokens and receive annual
             percentage yield (APY) in return 💰
           </p>
-          <Link href="/dashboard">
+          {connected ? (
+            <Link href="/dashboard">
+              <button className={styles.heroBtn}>Goto App</button>
+            </Link>
+          ) : (
             <button className={styles.heroBtn}>Connect wallet</button>
-          </Link>
+          )}
         </div>
         <div className={styles.heroImg}>
           <img src="/iPhone13Mockup.svg" width={445} height={650} />

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/Header.module.scss";
 import Link from "next/link";
 
-export default function Header({ connected, connectWallet }) {
+export default function Header({ connected, connectWallet, accountId }) {
   return (
     <div className={styles.header}>
       <Link href="./">
@@ -10,12 +10,10 @@ export default function Header({ connected, connectWallet }) {
       </Link>
       <div className={styles.header__connect}>
         {connected ? (
-          <button className={styles.header__connectBtn}>App</button>
+          <p className={styles.header__connectBtn}>{accountId}</p>
+          
         ) : (
-          <button
-            onClick={() => connectWallet()}
-            className={styles.header__connectBtn}
-          >
+          <button onClick={connectWallet} className={styles.header__connectBtn}>
             Connect Wallet
           </button>
         )}

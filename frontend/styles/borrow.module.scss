@@ -61,3 +61,19 @@
   display: flex;
   place-content: center;
 }
+
+.label {
+  font-family: inherit;
+}
+
+.days {
+  width: fit-content;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  margin: 1rem;
+  padding: 1rem;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
