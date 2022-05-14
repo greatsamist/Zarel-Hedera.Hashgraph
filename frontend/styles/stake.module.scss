@@ -5,7 +5,7 @@
   font-weight: 600;
 }
 .container {
-  background: #9f6ed30d;
+  background: rgba(159, 110, 211, 0.05);
   box-shadow: 0px 4px 4px #9f6ed31f;
   border-radius: 10px;
   color: #00000080;
@@ -15,6 +15,7 @@
 .amount {
   width: 100%;
   padding: 1rem;
+  font-weight: inherit;
   font-family: inherit;
   outline: none;
   border: none;
@@ -29,6 +30,7 @@
 .placeholder,
 .max {
   font-family: inherit;
+  font-weight: inherit;
   border: none;
   background: none;
   outline: none;

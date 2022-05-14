@@ -24,7 +24,7 @@ export default function Homepage({ connectWallet, connected }) {
           )}
         </div>
         <div className={styles.heroImg}>
-          <Image src={iPhone13Mockup} width={445} height={650} />
+          <Image src={iPhone13Mockup} alt="heroImage" width={445} height={650} />
         </div>
       </div>
       {/* /////////////////////////////////////////////////////// */}

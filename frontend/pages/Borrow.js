@@ -23,12 +23,12 @@ function Borrow() {
                 className={styles.placeholder}
                 type="number"
                 min="0"
-                max="10000"
-                placeholder="NFT id/serial number"
+                // max="10000"
+                placeholder="NFT id(serial number)"
               />
             </div>
 
-            <p className={styles.label}>Choose staking period</p>
+            <p className={styles.label}>Choose loan period</p>
             <div className={styles.period}>
               <div className={styles["period__row"]}>
                 <input

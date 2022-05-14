@@ -2,10 +2,10 @@
   margin: 3rem auto;
   width: 60%;
   font-size: small;
-  font-weight: 600;
+  font-weight: 700;
 }
 .container {
-  background: #9f6ed30d;
+  background: rgba(159, 110, 211, 0.05);
   box-shadow: 0px 4px 4px #9f6ed31f;
   border-radius: 10px;
   color: #00000080;
@@ -16,18 +16,21 @@
 .amount {
   width: 100%;
   padding: 1rem;
+  font-weight: inherit;
   font-family: inherit;
   outline: none;
   border: none;
   background-color: #ffffff;
   color: #00000080;
 }
+
 .amount {
   margin: 5rem 0;
   display: flex;
   place-content: space-between;
 }
 .placeholder {
+  font-weight: 600;
   font-family: inherit;
   border: none;
   background: none;
