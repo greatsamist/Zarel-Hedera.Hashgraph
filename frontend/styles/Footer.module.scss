@@ -1,5 +1,5 @@
 .footer {
-  height: 25rem;
+  height: 100%;
   background: #f4f6fe;
   display: flex;
   place-content: space-between;
@@ -22,4 +22,16 @@
 ul.list a {
   text-decoration: none;
   color: #201e4281;
+}
+
+@media only screen and (max-width: 500px) {
+  .footer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+  }
 }

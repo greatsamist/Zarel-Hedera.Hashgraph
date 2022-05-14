@@ -4,7 +4,7 @@ import Image from "next/image";
 import iPhone13Mockup from "../public/iPhone13Mockup.svg";
 import Link from "next/link";
 
-export default function Homepage({ connectWallet, connected }) {
+export default function Homepage() {
   return (
     <div className={styles.homepage}>
       <div className={styles.heroSection}>
@@ -13,18 +13,18 @@ export default function Homepage({ connectWallet, connected }) {
             Increase your earnings by staking tokens and receive annual
             percentage yield (APY) in return 💰
           </p>
-          {connected ? (
-            <Link href="/dashboard">
-              <button className={styles.heroBtn}>Go to App</button>
-            </Link>
-          ) : (
-            <button onClick={connectWallet} className={styles.heroBtn}>
-              Go to App
-            </button>
-          )}
+
+          <Link href="/dashboard">
+            <button className={styles.heroBtn}>Go to App</button>
+          </Link>
         </div>
         <div className={styles.heroImg}>
-          <Image src={iPhone13Mockup} alt="heroImage" width={445} height={650} />
+          <Image
+            src={iPhone13Mockup}
+            alt="heroImage"
+            width={445}
+            height={650}
+          />
         </div>
       </div>
       {/* /////////////////////////////////////////////////////// */}
