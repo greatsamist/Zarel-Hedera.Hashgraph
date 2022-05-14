@@ -12,7 +12,7 @@ function Stake() {
         <div className={styles.container}>
           <form>
             <select className={styles.list}>
-              <option disabled className={styles.li}>
+              <option value="" className={styles.li}>
                 Select Token to stake
               </option>
               <option className={styles.li}>Token</option>
