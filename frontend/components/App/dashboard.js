@@ -65,7 +65,7 @@ const Dashboard = () => {
             <tr>
               <td>
                 12000cft
-                <Image src={incoming} width={15} height={10} />
+                <Image src={incoming} alt="incoming" width={15} height={10} />
               </td>
               <td>12/04/22</td>
               <td className={styles.addr}>0.0.326789</td>
@@ -73,7 +73,7 @@ const Dashboard = () => {
 
             <tr>
               <td>
-                12000cft <Image src={outgoing} width={15} height={10} />
+                12000cft <Image alt="outgoing" src={outgoing} width={15} height={10} />
               </td>
               <td>12/04/22</td>
               <td className={styles.addr}>0.0.326789</td>

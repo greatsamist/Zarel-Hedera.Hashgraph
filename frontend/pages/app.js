@@ -18,7 +18,8 @@ require("dotenv").config();
 
 import styles from "../styles/nav.module.scss";
 
-function app() {
+function App() {
+	const [curNav, setCurNav] = useState("dashboard");
   const [walletData, setWalletData] = useState();
   const [accountId, setAccountId] = useState();
   const [connected, setConnected] = useState(false);
@@ -148,7 +149,7 @@ function app() {
   //     .setAccountId(aId)
   //     .execute(client);
   //   return balanceCheckTx.tokens._map.get(TokenAddress.toString());
-  const [curNav, setCurNav] = useState("dashboard");
+  
   return (
     <div>
       <AppHeader
@@ -202,4 +203,4 @@ function app() {
   );
 }
 
-export default app;
+export default App;
