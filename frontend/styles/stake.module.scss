@@ -3,7 +3,6 @@
   width: 60%;
   font-size: small;
   font-weight: 600;
-  font-weight: 800;
 }
 .container {
   background: #9f6ed30d;
@@ -16,6 +15,7 @@
 .amount {
   width: 100%;
   padding: 1rem;
+  font-family: inherit;
   outline: none;
   border: none;
   background-color: #ffffff;
@@ -28,6 +28,7 @@
 }
 .placeholder,
 .max {
+  font-family: inherit;
   border: none;
   background: none;
   outline: none;
@@ -63,7 +64,53 @@
   font-family: inherit;
   place-content: center;
 }
+.label {
+  font-weight: 700;
+}
 
 .warning {
   color: #ff0000;
+}
+
+.period {
+  display: flex;
+  flex-flow: row wrap;
+
+  &__row {
+    flex: 1;
+    padding: 0.5rem;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    display: block;
+    font-family: inherit;
+    background: white;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  &__input:checked + &__label {
+    background: rgb(159, 110, 212);
+    color: hsla(215, 0%, 100%, 1);
+    box-shadow: 0px 0px 10px rgb(159, 110, 212);
+  }
+
+  &__input,
+  &__period_03:checked + &__label {
+    background: red;
+    border-color: red;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .root {
+    width: 80%;
+  }
 }
