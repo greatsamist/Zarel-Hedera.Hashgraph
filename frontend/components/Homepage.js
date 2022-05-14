@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../styles/Homepage.module.scss";
 import Image from "next/image";
+import iPhone13Mockup from "../public/iPhone13Mockup.svg";
 import Link from "next/link";
 
 export default function Homepage({ connectWallet, connected }) {
@@ -23,7 +24,7 @@ export default function Homepage({ connectWallet, connected }) {
           )}
         </div>
         <div className={styles.heroImg}>
-          <img src="/iPhone13Mockup.svg" width={445} height={650} />
+          <Image src={iPhone13Mockup} width={445} height={650} />
         </div>
       </div>
       {/* /////////////////////////////////////////////////////// */}
@@ -46,6 +47,8 @@ export default function Homepage({ connectWallet, connected }) {
               APY with respect to their conditions for staking
             </p>
           </div>
+        </div>
+        <div className={styles.description}>
           <div className={styles.details}>
             <h4 className={styles.heading4}>Eligibility</h4>
             <p className={styles.paragraph}>

@@ -28,11 +28,11 @@ function Home() {
       wData[0].pairingEvent.once((pairingData) => {
         pairingData.accountIds.forEach((id) => {
           setAccountId(id);
-          setConnected(true);
           console.log(`\n- Paired account id: ${id}`);
           console.log(`🔌Account ${id} connected⚡✅`);
         });
       });
+      setConnected(true);
       console.log(wData);
       setWalletData(wData);
     }
