@@ -38,7 +38,7 @@ function Borrow() {
                   name="period"
                   value="7"
                 />
-                <label className={styles["period__label"]} for="period_01">
+                <label className={styles["period__label"]} htmlFor="period_01">
                   <p>7 days</p>
                 </label>
               </div>
@@ -50,7 +50,7 @@ function Borrow() {
                   name="period"
                   value="30"
                 />
-                <label className={styles["period__label"]} for="period_02">
+                <label className={styles["period__label"]} htmlFor="period_02">
                   <p>30 days</p>
                 </label>
               </div>
@@ -62,7 +62,7 @@ function Borrow() {
                   name="period"
                   value="90"
                 />
-                <label className={styles["period__label"]} for="period_03">
+                <label className={styles["period__label"]} htmlFor="period_03">
                   <p>90 days</p>
                 </label>
               </div>

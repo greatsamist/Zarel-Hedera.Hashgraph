@@ -1,6 +1,10 @@
 import React from "react";
 import Header from "../components/Header";
 import Nav from "../components/Nav";
+import Image from "next/image";
+import incoming from "../public/incoming.svg";
+import outgoing from "../public/outgoing.svg";
+
 import styles from "../styles/dashboard.module.scss";
 
 const Dashboard = () => {
@@ -67,7 +71,7 @@ const Dashboard = () => {
               <tr>
                 <td>
                   12000cft
-                  <img src="/incoming.svg" width={15} height={10} />
+                  <Image src={incoming} width={15} height={10} />
                 </td>
                 <td>12/04/22</td>
                 <td className={styles.addr}>0x1626***aA9B5D***f2e</td>
@@ -75,7 +79,7 @@ const Dashboard = () => {
 
               <tr>
                 <td>
-                  12000cft <img src="/outgoing.svg" width={15} height={10} />
+                  12000cft <Image src={outgoing} width={15} height={10} />
                 </td>
                 <td>12/04/22</td>
                 <td className={styles.addr}>0x1626***aA9B5D***f2e</td>
