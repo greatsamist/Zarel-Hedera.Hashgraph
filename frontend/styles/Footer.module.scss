@@ -12,6 +12,7 @@
   display: flex;
   place-content: space-between;
   gap: 4rem;
+  margin-bottom: 2rem;
 }
 .list,
 .l_list {
@@ -24,10 +25,17 @@ ul.list a {
   color: #201e4281;
 }
 
+@media only screen and (max-width: 700px) {
+  .footer {
+    padding: 5rem 5rem;
+  }
+}
+
 @media only screen and (max-width: 500px) {
   .footer {
     display: flex;
     flex-direction: column;
+    padding: 5rem 5rem;
   }
 
   .main {

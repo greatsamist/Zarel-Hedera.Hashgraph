@@ -94,43 +94,43 @@ async function main() {
   console.log(
     `- The smart contract ID in Solidity format is: ${contractAddress} \n`
   );
-  //////////////////////////////////////////
+  ////////////////////////////////////////
   // Associate Contract with Token
-  //   console.log(`STEP 3b ===================================`);
-  //   //Execute a contract function (associate)
-  //   console.log(`ASSOCIATE TOKEN WITH CONTRACT ==================`);
-  //   const contractExecTx1 = await new ContractExecuteTransaction()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction(
-  //       "tokenAssociate",
-  //       new ContractFunctionParameters().addAddress(tokenAddr)
-  //     )
-  //     .freezeWith(client);
-  //   //   const contractExecSign1 = await contractExecTx1.sign(aliceKey);
-  //   const contractExecSubmit1 = await contractExecTx1.execute(client);
-  //   const contractExecRx1 = await contractExecSubmit1.getReceipt(client);
-  //   console.log(
-  //     `- Token association with Contract's account: ${contractExecRx1.status.toString()} \n`
-  //   );
-  //   //////////////////////////////////////////
-  //   console.log(`STEP 3c ===================================`);
-  //   //Execute a contract function (associate)
-  //   console.log(`ASSOCIATE NFT WITH CONTRACT ==================`);
-  //   const contractExecTx2 = await new ContractExecuteTransaction()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction(
-  //       "tokenAssociate",
-  //       new ContractFunctionParameters().addAddress(NFTAddr)
-  //     )
-  //     .freezeWith(client);
-  //   //
-  //   const contractExecSubmit2 = await contractExecTx2.execute(client);
-  //   const contractExecRx2 = await contractExecSubmit2.getReceipt(client);
-  //   console.log(
-  //     `- NFT association with Contract's account: ${contractExecRx2.status.toString()} \n`
-  //   );
+  console.log(`STEP 3b ===================================`);
+  //Execute a contract function (associate)
+  console.log(`ASSOCIATE TOKEN WITH CONTRACT ==================`);
+  const contractExecTx1 = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "tokenAssociate",
+      new ContractFunctionParameters().addAddress(tokenAddr)
+    )
+    .freezeWith(client);
+  //   const contractExecSign1 = await contractExecTx1.sign(aliceKey);
+  const contractExecSubmit1 = await contractExecTx1.execute(client);
+  const contractExecRx1 = await contractExecSubmit1.getReceipt(client);
+  console.log(
+    `- Token association with Contract's account: ${contractExecRx1.status.toString()} \n`
+  );
+  //////////////////////////////////////////
+  console.log(`STEP 3c ===================================`);
+  //Execute a contract function (associate)
+  console.log(`ASSOCIATE NFT WITH CONTRACT ==================`);
+  const contractExecTx2 = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "tokenAssociate",
+      new ContractFunctionParameters().addAddress(NFTAddr)
+    )
+    .freezeWith(client);
+  //
+  const contractExecSubmit2 = await contractExecTx2.execute(client);
+  const contractExecRx2 = await contractExecSubmit2.getReceipt(client);
+  console.log(
+    `- NFT association with Contract's account: ${contractExecRx2.status.toString()} \n`
+  );
 
   //   /////////////////////////////////////////////
   //   //////////////////////////////////////////

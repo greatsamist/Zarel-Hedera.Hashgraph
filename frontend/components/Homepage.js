@@ -14,7 +14,7 @@ export default function Homepage() {
             percentage yield (APY) in return 💰
           </p>
 
-          <Link href="/app">
+          <Link href="/ZApp">
             <button className={styles.heroBtn}>Go to App</button>
           </Link>
         </div>

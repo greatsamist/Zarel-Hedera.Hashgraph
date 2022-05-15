@@ -1,24 +1,29 @@
 import React from "react";
 import styles from "../../styles/borrow.module.scss";
 
-function Borrow() {
+function Borrow({ onClickBorrow }) {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
-        <form>
-          <select className={styles.list}>
+        <form onSubmit={onClickBorrow}>
+          <select className={styles.list} name="collateral">
             <option value="" className={styles.li}>
-              Choose collateral
+              Choose NFT
             </option>
-            <option className={styles.li}>ZRT NFT</option>
-            <option className={styles.li}>ASAPT NFT</option>
+            <option value="0xZaer" id="ZKT" className={styles.li}>
+              ZRT NFT
+            </option>
+            <option value="0xbt" id="BRT" className={styles.li}>
+              ASAPT NFT
+            </option>
           </select>
           <div className={styles.amount}>
             <input
               className={styles.placeholder}
               type="number"
               min="0"
-              // max="10000"
+              name="id"
+              id="id"
               placeholder="NFT id(serial number)"
             />
           </div>
@@ -31,7 +36,7 @@ function Borrow() {
                 type="radio"
                 id="period_01"
                 name="period"
-                value="7"
+                value="604800"
               />
               <label className={styles["period__label"]} htmlFor="period_01">
                 <p>7 days</p>
@@ -43,7 +48,7 @@ function Borrow() {
                 type="radio"
                 id="period_02"
                 name="period"
-                value="30"
+                value="1209600"
               />
               <label className={styles["period__label"]} htmlFor="period_02">
                 <p>14 days</p>
@@ -55,7 +60,7 @@ function Borrow() {
                 type="radio"
                 id="period_03"
                 name="period"
-                value="30"
+                value="2629743"
               />
               <label className={styles["period__label"]} htmlFor="period_03">
                 <p>30 days</p>
@@ -69,7 +74,9 @@ function Borrow() {
             *Note: Your NFT will be locked till your loan is paid back in full.
           </p>
           <div className={styles.applyBTN}>
-            <button className={styles.apply}>Apply</button>
+            <button type="submit" className={styles.apply}>
+              Apply
+            </button>
           </div>
         </form>
       </div>

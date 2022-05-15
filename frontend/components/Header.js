@@ -5,11 +5,11 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div className={styles.header}>
-      <Link href="./">
+      <Link href="/">
         <div className={styles.header__logoText}>Zarel</div>
       </Link>
       <div className={styles.header__connect}>
-        <Link href="./app">
+        <Link href="/ZApp">
           <button className={styles.header__connectBtn}>App</button>
         </Link>
       </div>

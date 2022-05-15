@@ -25,7 +25,28 @@
     color: #ffffff;
     border-style: none;
     background: #9f6ed3;
-    border-radius: 3px;
+    border-radius: 8px;
     cursor: pointer;
+  }
+
+  &__connected {
+    padding: 1rem;
+    margin-right: 4rem;
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.697);
+    border: 1px solid #9f6ed3c8;
+    border-radius: 8px;
+
+    display: flex;
+
+    justify-content: center;
+  }
+
+  &__accB {
+    margin-right: 2rem;
+  }
+
+  &__accTitle {
+    font-weight: 700;
   }
 }
