@@ -28,10 +28,8 @@ const aliceKey = PrivateKey.fromString(process.env.ALICE_PVKEY);
 const NFTAddress = AccountId.fromString(process.env.NFTADDR);
 const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
 const client = Client.forTestnet().setOperator(operatorId, operatorKey);
-const clientAlice = Client.forTestnet().setOperator(aliceId, aliceKey);
 
 ///////////////////////////
-const adminAddr = treasuryId.toSolidityAddress();
 const tokenAddr = TokenAddress.toSolidityAddress();
 const NFTAddr = NFTAddress.toSolidityAddress();
 
@@ -99,7 +97,7 @@ async function main() {
   console.log(`STEP 3b ===================================`);
   //Execute a contract function (associate)
   console.log(`ASSOCIATE TOKEN WITH CONTRACT ==================`);
-  const contractExecTx1 = await new ContractExecuteTransaction()
+  const contractExecTx1 = new ContractExecuteTransaction()
     .setContractId(contractId)
     .setGas(3000000)
     .setFunction(
@@ -132,37 +130,37 @@ async function main() {
     `- NFT association with Contract's account: ${contractExecRx2.status.toString()} \n`
   );
 
-  //   /////////////////////////////////////////////
-  //   //////////////////////////////////////////
-  //   //BALANCE CHECK
-  //   var balanceCheckTx = await new AccountBalanceQuery()
-  //     .setAccountId(treasuryId)
-  //     .execute(client);
-  //   console.log(
-  //     `- Treasury balance: ${balanceCheckTx.tokens._map.get(
-  //       TokenAddress.toString()
-  //     )} units of token ID ${TokenAddress}`
-  //   );
-  //   /////////////////////////////
-  //   // TRANSFER STABLECOIN FROM TREASURY TO CON
-  //   let tokenTransferTx = await new TransferTransaction()
-  //     // .addTokenTransfer(TokenAddress, treasuryId, -100)
-  //     // .addTokenTransfer(TokenAddress, contractId, 100)
-  //     .addHbarTransfer(treasuryId, Hbar.fromTinybars(-10))
-  //     .addHbarTransfer(contractId, Hbar.fromTinybars(10))
-  //     .freezeWith(client)
-  //     .sign(treasuryKey);
+  /////////////////////////////////////////////
+  //////////////////////////////////////////
+  //BALANCE CHECK
+  var balanceCheckTx = await new AccountBalanceQuery()
+    .setAccountId(treasuryId)
+    .execute(client);
+  console.log(
+    `- Treasury balance: ${balanceCheckTx.tokens._map.get(
+      TokenAddress.toString()
+    )} units of token ID ${TokenAddress}`
+  );
+  /////////////////////////////
+  // TRANSFER STABLECOIN FROM TREASURY TO CON
+  let tokenTransferTx = await new TransferTransaction()
+    .addTokenTransfer(TokenAddress, treasuryId, -100)
+    .addTokenTransfer(TokenAddress, contractId, 100)
+    .addHbarTransfer(treasuryId, Hbar.fromTinybars(-10))
+    .addHbarTransfer(contractId, Hbar.fromTinybars(10))
+    .freezeWith(client)
+    .sign(treasuryKey);
 
-  //   //SUBMIT THE TRANSACTION
-  //   let tokenTransferSubmit = await tokenTransferTx.execute(client);
+  //SUBMIT THE TRANSACTION
+  let tokenTransferSubmit = await tokenTransferTx.execute(client);
 
-  //   //GET THE RECEIPT OF THE TRANSACTION
-  //   let tokenTransferRx = await tokenTransferSubmit.getReceipt(client);
+  //GET THE RECEIPT OF THE TRANSACTION
+  let tokenTransferRx = await tokenTransferSubmit.getReceipt(client);
 
-  //   //LOG THE TRANSACTION STATUS
-  //   console.log(
-  //     `\n- Stablecoin transfer from Treasury to Contract: ${tokenTransferRx.status} \n`
-  //   );
+  //LOG THE TRANSACTION STATUS
+  console.log(
+    `\n- Stablecoin transfer from Treasury to Contract: ${tokenTransferRx.status} \n`
+  );
 
   //   // BALANCE CHECK
   //   var balanceCheckTx = await new AccountBalanceQuery()
@@ -183,133 +181,141 @@ async function main() {
   //   //   );
   //   //////////////////////////////
 
-  //   // STEP 4 ===================================
-  //   console.log(`STEP 4 ===================================`);
-  //   //Execute a contract function (setFloorPrice)
-  //   const contractExecTx = await new ContractExecuteTransaction()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction(
-  //       "setFloorPrice",
-  //       new ContractFunctionParameters().addInt64(100)
-  //     )
-  //     .freezeWith(client)
-  //     .sign(aliceKey);
-  //   const contractExecSign2 = await contractExecTx.sign(treasuryKey);
-  //   const contractExecSubmit = await contractExecSign2.execute(client);
-  //   const contractExecRx = await contractExecSubmit.getReceipt(client);
-  //   console.log(`- FloorPrice: ${contractExecRx.status.toString()}`);
+  // STEP 4 ===================================
+  console.log(`STEP 4 ===================================`);
+  //Execute a contract function (setFloorPrice)
+  const contractExecTx = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "setFloorPrice",
+      new ContractFunctionParameters().addAddress(tokenAddr).addInt64(50)
+    )
+    .freezeWith(client)
+    .sign(treasuryKey);
+  const contractExecSign2 = await contractExecTx.sign(treasuryKey);
+  const contractExecSubmit = await contractExecSign2.execute(client);
+  const contractExecRx = await contractExecSubmit.getReceipt(client);
+  console.log(`- FloorPrice: ${contractExecRx.status.toString()} \n`);
 
-  //   //Contract call query
-  //   const query = new ContractCallQuery()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction("floorPrice");
+  //Contract call query
+  const query = new ContractCallQuery()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "TokenFloorPrice",
+      new ContractFunctionParameters().addAddress(tokenAddr)
+    );
 
-  //   //Sign with the client operator private key to pay for the query and submit the query to a Hedera network
-  //   const contractCallResult = await query.execute(client);
+  //Sign with the client operator private key to pay for the query and submit the query to a Hedera network
+  const contractCallResult = await query.execute(client);
 
-  //   // Get the function value
-  //   const message = contractCallResult.getInt64();
-  //   console.log(`contract Floor price set at: ${message} \n`);
+  // Get the function value
+  const message = contractCallResult.getInt64();
+  console.log(`Token Floor price set at: ${message} \n`);
 
-  //   let aB = await bCheckerFcn(aliceId);
-  //   let aT = await TCheckerFcn(aliceId);
-  //   console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
-  //   console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
+  let aB = await bCheckerFcn(aliceId);
+  let aT = await TCheckerFcn(aliceId);
+  console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
+  console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
 
-  //   // STEP 5 ===================================
-  //   console.log(`STEP 5 ===================================`);
-  //   // Execute a contract function (Borrow)
-  //   const contractBorrowTx = await new ContractExecuteTransaction()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction(
-  //       "Borrow",
-  //       new ContractFunctionParameters()
-  //         .addAddress(aliceId.toSolidityAddress())
-  //         .addInt64(1)
-  //     )
-  //     .freezeWith(clientAlice);
-  //   const contractExecSign3 = await contractBorrowTx.sign(aliceKey);
-  //   const contractBorrowSubmit = await contractExecSign3.execute(client);
-  //   const contractBorrowRx = await contractBorrowSubmit.getReceipt(client);
-  //   console.log(`- Borrow: ${contractBorrowRx.status.toString()}`);
+  // STEP 5 ===================================
+  console.log(`STEP 5 ===================================`);
+  // Execute a contract function (Borrow)
+  const contractBorrowTx = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "Borrow",
+      new ContractFunctionParameters()
+        .addAddress(aliceId.toSolidityAddress())
+        .addAddress(NFTAddr)
+        .addAddress(tokenAddr)
+        .addInt64(1)
+        .addUint40(604800)
+    )
+    .freezeWith(client)
+    .sign(aliceKey);
 
-  //   aB = await bCheckerFcn(aliceId);
-  //   aT = await TCheckerFcn(aliceId);
+  const contractExecSign3 = await contractBorrowTx.sign(aliceKey);
+  const contractBorrowSubmit = await contractExecSign3.execute(client);
+  const contractBorrowRx = await contractBorrowSubmit.getReceipt(client);
+  console.log(`- Borrow: ${contractBorrowRx.status.toString()}`);
 
-  //   console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
-  //   console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
+  aB = await bCheckerFcn(aliceId);
+  aT = await TCheckerFcn(aliceId);
 
-  //   //Contract call query
-  //   const query2 = new ContractCallQuery()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction("NFTBalance");
+  console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
+  console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
 
-  //   //Sign with the client operator private key to pay for the query and submit the query to a Hedera network
-  //   const contractCallResult2 = await query2.execute(client);
+  //Contract call query
+  const query2 = new ContractCallQuery()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction("NFTBalance");
 
-  //   // Get the function value
-  //   const message2 = contractCallResult2.getUint256();
-  //   console.log("contract NFT Balance: " + message2);
+  //Sign with the client operator private key to pay for the query and submit the query to a Hedera network
+  const contractCallResult2 = await query2.execute(client);
 
-  //   // STEP 6 ===================================
-  //   console.log(`STEP 6 ===================================`);
-  //   // Execute a contract function (payBack)
-  //   const contractPayBackTx = await new ContractExecuteTransaction()
-  //     .setContractId(contractId)
-  //     .setGas(3000000)
-  //     .setFunction(
-  //       "payBack",
-  //       new ContractFunctionParameters()
-  //         .addAddress(aliceId.toSolidityAddress())
-  //         .addInt64(100)
-  //     )
-  //     .freezeWith(client)
-  //     .sign(aliceKey);
-  //   const contractExecSign5 = await contractPayBackTx.sign(aliceKey);
-  //   const contractPayBackSubmit = await contractExecSign5.execute(client);
-  //   const contractPayBackRx = await contractPayBackSubmit.getReceipt(client);
-  //   console.log(`- PayBack: ${contractPayBackRx.status.toString()}`);
+  // Get the function value
+  const message2 = contractCallResult2.getUint256();
+  console.log("contract NFT Balance: " + message2);
 
-  //   aB = await bCheckerFcn(aliceId);
-  //   aT = await TCheckerFcn(aliceId);
-  //   console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
-  //   console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
+  // STEP 6 ===================================
+  console.log(`STEP 6 ===================================`);
+  // Execute a contract function (payBack)
+  const contractPayBackTx = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction(
+      "payBack",
+      new ContractFunctionParameters()
+        .addAddress(aliceId.toSolidityAddress())
+        .addInt64(100)
+    )
+    .freezeWith(client)
+    .sign(aliceKey);
+  const contractExecSign5 = await contractPayBackTx.sign(aliceKey);
+  const contractPayBackSubmit = await contractExecSign5.execute(client);
+  const contractPayBackRx = await contractPayBackSubmit.getReceipt(client);
+  console.log(`- PayBack: ${contractPayBackRx.status.toString()}`);
+
+  aB = await bCheckerFcn(aliceId);
+  aT = await TCheckerFcn(aliceId);
+  console.log(`- Alice balance: ${aB} units of NFT ${NFTAddress} \n`);
+  console.log(`- Alice balance: ${aT} units of Token ${TokenAddress} \n`);
 
   //   //////////////////////////////////////
-  //   // Execute contract function getNFts
-  //   //   console.log(`STEP 7 ===================================`);
-  //   //   const contractBorrowTx2 = await new ContractExecuteTransaction()
-  //   //     .setContractId(contractId)
-  //   //     .setGas(3000000)
-  //   //     .setFunction("getNFts", new ContractFunctionParameters().addInt64(1))
-  //   //     .freezeWith(clientAlice);
-  //   //   const contractExecSign4 = await contractBorrowTx2.sign(aliceKey);
-  //   //   const contractBorrowSubmit2 = await contractExecSign4.execute(client);
-  //   //   const contractBorrowRx2 = await contractBorrowSubmit2.getReceipt(client);
-  //   //   console.log(`- Borrow: ${contractBorrowRx2.status.toString()}`);
+  //  Execute contract function getNFts
+  console.log(`STEP 7 ===================================`);
+  const contractBorrowTx2 = await new ContractExecuteTransaction()
+    .setContractId(contractId)
+    .setGas(3000000)
+    .setFunction("getNFts", new ContractFunctionParameters().addInt64(1))
+    .freezeWith(clientAlice);
+  const contractExecSign4 = await contractBorrowTx2.sign(aliceKey);
+  const contractBorrowSubmit2 = await contractExecSign4.execute(client);
+  const contractBorrowRx2 = await contractBorrowSubmit2.getReceipt(client);
+  console.log(`- Borrow: ${contractBorrowRx2.status.toString()}`);
 
-  //   //   tB = await bCheckerFcn(treasuryId);
-  //   //   console.log(`- Treasury balance: ${tB} units of NFT ${NFTAddress}`);
-  // }
+  tB = await bCheckerFcn(treasuryId);
+  console.log(`- Treasury balance: ${tB} units of NFT ${NFTAddress}`);
+}
 
-  // // ========================================
-  // // FUNCTIONS
-  // async function bCheckerFcn(aId) {
-  //   let balanceCheckTx = await new AccountBalanceQuery()
-  //     .setAccountId(aId)
-  //     .execute(client);
-  //   return balanceCheckTx.tokens._map.get(NFTAddress.toString());
-  // }
+// ========================================
+// FUNCTIONS
+async function bCheckerFcn(aId) {
+  let balanceCheckTx = await new AccountBalanceQuery()
+    .setAccountId(aId)
+    .execute(client);
+  return balanceCheckTx.tokens._map.get(NFTAddress.toString());
+}
 
-  // async function TCheckerFcn(aId) {
-  //   let balanceCheckTx = await new AccountBalanceQuery()
-  //     .setAccountId(aId)
-  //     .execute(client);
-  //   return balanceCheckTx.tokens._map.get(TokenAddress.toString());
+async function TCheckerFcn(aId) {
+  let balanceCheckTx = await new AccountBalanceQuery()
+    .setAccountId(aId)
+    .execute(client);
+  return balanceCheckTx.tokens._map.get(TokenAddress.toString());
 }
 
 main();

@@ -20,6 +20,7 @@ contract ZarelStaking is HederaTokenService {
         bool isActive;
         uint64 stakedAt;
         uint64 amount;
+        uint40 period;
     }
     mapping(address => Staker) private Stakers;
 
@@ -79,12 +80,11 @@ contract ZarelStaking is HederaTokenService {
         return _yield;
     }
 
-    function stake(uint64 _amount, address sender)
-        public
-        validStake(_amount)
-        IsMember(sender)
-        returns (bool)
-    {
+    function stake(
+        address sender,
+        uint64 _amount,
+        uint40 _period
+    ) public validStake(_amount) IsMember(sender) {
         // Token transfer code
         int256 response = HederaTokenService.transferToken(
             ZToken,
@@ -108,11 +108,10 @@ contract ZarelStaking is HederaTokenService {
 
         s.amount = _amount;
         s.stakedAt = uint64(block.timestamp);
-
-        return true;
+        s.period = _period;
     }
 
-    function withdraw(address receiver) public returns (bool) {
+    function withdraw(address receiver) public {
         Staker storage s = Stakers[receiver];
         require(s.isActive, "No active record found");
         uint64 _yield = _calculateYield(s);
