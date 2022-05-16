@@ -5,7 +5,12 @@ import outgoing from "../../public/outgoing.svg";
 
 import styles from "../../styles/dashboard.module.scss";
 
-const Dashboard = () => {
+const Dashboard = ({
+  onClickFloorPrice,
+  onClickPayBack,
+  floorPrice,
+  onClickWithdraw,
+}) => {
   return (
     <div className={styles.root}>
       <div className={styles.table_container}>
@@ -28,29 +33,54 @@ const Dashboard = () => {
               <td>200</td>
               <td>16/05/22</td>
               <td>16/06/22</td>
-              <td className={styles.claim}>claim</td>
+              <td onClick={onClickWithdraw} className={styles.claim}>
+                claim
+              </td>
               <td className={styles.restake}>Restake</td>
             </tr>
-
-            <tr>
-              <td>100 zkt</td>
-              <td>10%</td>
-              <td>.....</td>
-              <td>15/05/22</td>
-              <td>30/05/22</td>
-              <td className={styles.claim}>claim</td>
-            </tr>
-            {/* <tr>
-              <td>12000zkt</td>
-              <td>0.05%</td>
-              <td>.....</td>
-              <td>12/01/21</td>
-              <td>12/04/22</td>
-              <td className={styles.claim}>claim</td>
-            </tr> */}
           </tbody>
         </table>
       </div>
+
+      <div className={styles.payLoan}>
+        <h3 className={styles.payLoan__heading}>Pay back loan</h3>
+        <form onSubmit={onClickPayBack}>
+          <div className={styles.payLoan__input}>
+            <input
+              className={styles.payLoan__input}
+              required
+              type="number"
+              min="0"
+              id="amount"
+              name="amount"
+              placeholder="Enter amount here"
+            />
+            <button className={styles.payLoan__btn} type="submit">
+              Pay
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div className={styles.payLoan}>
+        <h3 className={styles.payLoan__heading}>Check Token floor price</h3>
+        <form onSubmit={onClickFloorPrice}>
+          <select required className={styles.payLoan__input} name="floorPrice">
+            <option
+              className={styles.payLoan__input}
+              value="0.0.34362684"
+              id="floorPrice"
+            >
+              Zarel NFT
+            </option>
+          </select>
+          <button className={styles.payLoan__btn} type="submit">
+            fetch
+          </button>
+        </form>
+        <p className={styles.payLoan__floorPrice}>{floorPrice}</p>
+      </div>
+
       <div>
         <table className={styles.History_Table}>
           <caption className={styles.caption}>History</caption>

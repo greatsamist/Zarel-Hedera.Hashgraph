@@ -6,12 +6,12 @@ function Stake({ onClickStake }) {
     <div className={styles.root}>
       <div className={styles.container}>
         <form onSubmit={onClickStake}>
-          <select className={styles.list} name="token">
+          <select required className={styles.list} name="token">
             <option className={styles.li}>Select Token to stake</option>
-            <option value="0xzk" id="ZKT" className={styles.li}>
+            <option value="0.0.34386412" id="ZKT" className={styles.li}>
               Zarel Tokens
             </option>
-            <option value="0xbt" id="BRT" className={styles.li}>
+            <option value="0.0.34386412" id="BRT" className={styles.li}>
               Bored Tokens
             </option>
           </select>
@@ -30,6 +30,7 @@ function Stake({ onClickStake }) {
           <div className={styles.period}>
             <div className={styles["period__row"]}>
               <input
+                required
                 className={styles["period__input"]}
                 type="radio"
                 id="period_01"

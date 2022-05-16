@@ -51,3 +51,44 @@
 .addr {
   color: #00000080;
 }
+
+.payLoan {
+  margin-top: 4rem;
+  padding: 3rem;
+  border-radius: 1rem;
+  justify-content: center;
+  background-color: #f4f6fe;
+
+  &__heading {
+    margin: 2rem 0;
+  }
+
+  &__input {
+    height: 3rem;
+    outline: none;
+    border: none;
+    font-family: inherit;
+    font-weight: inherit;
+  }
+
+  &__btn {
+    padding: 0.5rem 2rem;
+    margin-left: 2rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    background: #979797;
+    font-family: inherit;
+    font-weight: inherit;
+    color: #fff;
+    border-style: none;
+  }
+
+  &__btn:hover {
+    background: #9f6ed3;
+    color: #fff;
+  }
+
+  &__floorPrice {
+    margin-top: 2rem;
+  }
+}

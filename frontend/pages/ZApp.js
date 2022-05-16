@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+require("dotenv").config();
+import React, { Fragment, useState } from "react";
 import AppHeader from "../components/App/AppHeader";
 import Borrow from "../components/App/Borrow";
 import Dashboard from "../components/App/dashboard";
@@ -17,10 +18,10 @@ import {
 import { hethers } from "@hashgraph/hethers";
 import styles from "../styles/nav.module.scss";
 
-require("dotenv").config();
-
-const stakeContractId = "";
-const borrowContractId = "0.0.34738208";
+const stakeContractId = "0.0.34826090";
+const borrowContractId = "0.0.34825985";
+const NFTAddress = AccountId.fromString("0.0.34362684");
+const NFTAddr = NFTAddress.toSolidityAddress();
 
 function ZApp() {
   const [curNav, setCurNav] = useState("dashboard");
@@ -28,6 +29,7 @@ function ZApp() {
   const [accountId, setAccountId] = useState();
   const [accountBal, setAccountBal] = useState("");
   const [connected, setConnected] = useState(false);
+  const [floorPrice, setFloorPrice] = useState();
 
   async function connectWallet() {
     if (accountId !== undefined) {
@@ -36,18 +38,19 @@ function ZApp() {
       await AccountBalance();
     } else {
       const wData = await walletConnectFcn();
-      console.log(wData);
-      setWalletData(wData);
-      wData[0].pairingEvent.once((pairingData) => {
-        pairingData.accountIds.forEach((id) => {
-          setAccountId(id);
-          console.log(`\n- Paired account id: ${id}`);
-          console.log(`🔌Account ${id} connected⚡✅`);
+      if (wData !== undefined) {
+        console.log(wData);
+        setWalletData(wData);
+        wData[0].pairingEvent.once((pairingData) => {
+          pairingData.accountIds.forEach((id) => {
+            console.log(`\n- Paired account id: ${id}`);
+            console.log(`🔌Account ${id} connected⚡✅`);
+            setAccountId(id);
+          });
         });
-      });
-      setConnected(true);
-      await AccountBalance();
-      console.log(walletData);
+        setConnected(true);
+      }
+      AccountBalance();
     }
   }
 
@@ -66,37 +69,18 @@ function ZApp() {
     }
   }
 
-  async function associateToken() {
-    let provider = walletData[0].getProvider(
-      "testnet",
-      walletData[1].topic,
-      accountId
-    );
-    console.log(walletData[1]);
-    let signer = walletData[0].getSigner(provider);
-    // const TokenAddress = Number("0.0.34386412");
-    // const TokenAddress = AccountId.fromString(process.env.TOKENADDR);
-    const TokenAddress = AccountId.fromString("0.0.34356109");
-    const tokenAddr = TokenAddress.toSolidityAddress();
-    const contractId = AccountId.fromString("0.0.34738208");
+  ///=================================///
+  //Contract call query getFloorPrice
+  const onClickFloorPrice = async (e) => {
+    e.preventDefault();
 
-    const contractExecTx = await new ContractExecuteTransaction()
-      .setContractId(borrowContractId)
-      .setGas(3000000)
-      .setFunction(
-        "tokenAssociate",
-        new ContractFunctionParameters().addAddress(tokenAddr)
-      )
-      .freezeWithSigner(signer);
+    const data = {
+      addr: e.target.floorPrice.value,
+    };
 
-    const res = await contractExecTx.executeWithSigner(signer);
-    const resRx = await res.getReceipt(signer);
-
-    console.log(`- Token association with Contract's account: ${resRx} \n`);
-  }
-
-  //Contract call query
-  async function getFloorPrice() {
+    const tokenAddr = AccountId.fromString(data.addr);
+    const tokenAddrSol = tokenAddr.toSolidityAddress();
+    console.log(tokenAddrSol);
     const operatorID = AccountId.fromString(operator.id);
     const operatorPrivKey = PrivateKey.fromString(operator.pvkey);
     const client = Client.forTestnet().setOperator(operatorID, operatorPrivKey);
@@ -104,30 +88,37 @@ function ZApp() {
     const query = new ContractCallQuery()
       .setContractId(borrowContractId)
       .setGas(3000000)
-      .setFunction("floorPrice");
+      .setFunction(
+        "TokenFloorPrice",
+        new ContractFunctionParameters().addAddress(NFTAddr)
+      );
 
     //Sign with the client operator private key to pay for the query and submit the query to a Hedera network
     const contractCallResult = await query.execute(client);
 
     // Get the function value
     const message = contractCallResult.getInt64();
-    console.log(`contract Floor price set at: ${message} \n`);
-  }
+    setFloorPrice(message);
+    console.log(`Token Floor price set at: ${message} \n`);
+  };
 
+  ///===============================================///
   // Execute a contract function Borrow
   const onClickBorrow = async (e) => {
     e.preventDefault();
 
-    // const data = {
-    //   collateral: e.target.collateral.value,
-    //   id: e.target.id.value,
-    //   period: e.target.period.value,
-    // };
-    // console.log(data);
+    const data = {
+      collateral: e.target.collateral.value,
+      id: e.target.id.value,
+      period: e.target.period.value,
+    };
 
- 
-    let AccId = AccountId.fromString(accountId);
-    let AccIDSol = AccId.toSolidityAddress();
+    const nft = AccountId.fromString(data.collateral);
+    const nftSol = nft.toSolidityAddress();
+
+    const accId = AccountId.fromString(accountId);
+    const accIdSol = accId.toSolidityAddress();
+
     let provider = walletData[0].getProvider(
       "testnet",
       walletData[1].topic,
@@ -141,7 +132,11 @@ function ZApp() {
       .setGas(3000000)
       .setFunction(
         "Borrow",
-        new ContractFunctionParameters().addAddress(AccIDSol).addInt64(1)
+        new ContractFunctionParameters()
+          .addAddress(accIdSol)
+          .addAddress(nftSol)
+          .addInt64(Number(data.id))
+          .addUint40(Number(data.period))
       )
       .freezeWithSigner(signer);
     const contractBorrowSubmit = await contractBorrowTx.executeWithSigner(
@@ -152,22 +147,38 @@ function ZApp() {
   };
 
   // Execute a contract function (payBack)
-  const payBack = async () => {
-    const contractPayBackTx = await new ContractExecuteTransaction()
-      .setContractId(contractId)
+  const onClickPayBack = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      token: e.target.token.value,
+      amount: e.target.amount.value,
+    };
+
+    const accId = AccountId.fromString(accountId);
+    const accIdSol = accId.toSolidityAddress();
+
+    let provider = walletData[0].getProvider(
+      "testnet",
+      walletData[1].topic,
+      accountId
+    );
+    console.log(walletData[1].privateKey);
+    let signer = walletData[0].getSigner(provider);
+
+    const contractStakeTx = new ContractExecuteTransaction()
+      .setContractId(stakeContractId)
       .setGas(3000000)
       .setFunction(
         "payBack",
         new ContractFunctionParameters()
-          .addAddress(aliceId.toSolidityAddress())
-          .addInt64(100)
+          .addAddress(accIdSol)
+          .addUint64(Number(data.amount))
       )
-      .freezeWith(client)
-      .sign(aliceKey);
-    const contractExecSign5 = await contractPayBackTx.sign(aliceKey);
-    const contractPayBackSubmit = await contractExecSign5.execute(client);
-    const contractPayBackRx = await contractPayBackSubmit.getReceipt(client);
-    console.log(`- PayBack: ${contractPayBackRx.status.toString()}`);
+      .freezeWithSigner(signer);
+    const contractStakeSubmit = await contractStakeTx.executeWithSigner(signer);
+    const contractBorrowRx = await contractStakeSubmit.getReceipt(signer);
+    console.log(`- payBack: ${contractBorrowRx.status.toString()}`);
   };
 
   // Calling the stake function
@@ -179,27 +190,74 @@ function ZApp() {
       amount: e.target.amount.value,
       period: e.target.period.value,
     };
-    console.log(data);
+
+    const accId = AccountId.fromString(accountId);
+    const accIdSol = accId.toSolidityAddress();
+
+    let provider = walletData[0].getProvider(
+      "testnet",
+      walletData[1].topic,
+      accountId
+    );
+    console.log(walletData[1].privateKey);
+    let signer = walletData[0].getSigner(provider);
+
+    const contractStakeTx = await new ContractExecuteTransaction()
+      .setContractId(stakeContractId)
+      .setGas(3000000)
+      .setFunction(
+        "stake",
+        new ContractFunctionParameters()
+          .addAddress(accIdSol)
+          .addUint64(Number(data.amount))
+          .addUint40(Number(data.period))
+      )
+      .freezeWithSigner(signer);
+    const contractStakeSubmit = await contractStakeTx.executeWithSigner(signer);
+    const contractStakeRx = await contractStakeSubmit.getReceipt(signer);
+    console.log(`- Stake: ${contractStakeRx.status.toString()}`);
   };
 
-  // async function TCheckerFcn(aId) {
-  //   let balanceCheckTx = await new AccountBalanceQuery()
-  //     .setAccountId(aId)
-  //     .execute(client);
-  //   return balanceCheckTx.tokens._map.get(TokenAddress.toString());
+  ///// Calling the withdraw stake function
+  const onClickWithdraw = async (e) => {
+    e.preventDefault();
+
+    const accId = AccountId.fromString(accountId);
+    const accIdSol = accId.toSolidityAddress();
+
+    let provider = walletData[0].getProvider(
+      "testnet",
+      walletData[1].topic,
+      accountId
+    );
+    console.log(walletData[1].privateKey);
+    let signer = walletData[0].getSigner(provider);
+
+    const contractStakeTx = new ContractExecuteTransaction()
+      .setContractId(stakeContractId)
+      .setGas(3000000)
+      .setFunction(
+        "withdraw",
+        new ContractFunctionParameters().addAddress(accIdSol)
+      )
+      .freezeWithSigner(signer);
+    const contractStakeSubmit = await contractStakeTx.executeWithSigner(signer);
+    const contractBorrowRx = await contractStakeSubmit.getReceipt(signer);
+    console.log(`- withdraw: ${contractBorrowRx.status.toString()}`);
+  };
 
   return (
-    <div>
+    <Fragment>
       <AppHeader
         connectWallet={connectWallet}
         connected={connected}
         accountId={accountId}
         accountBal={accountBal}
       />
-      <button onClick={AccountBalance}>Bal</button>
-      <button onClick={getFloorPrice}>FLoor</button>
+      <button onClick={AccountBalance}></button>
+      {/* <button onClick={getFloorPrice}>FLoor</button>
       <button onClick={associateToken}>associateToken</button>
-      <button onClick={onClickBorrow}>Borrow</button>
+      <button onClick={onClickBorrow}>Borrow</button> */}
       <div className={styles.card}>
         <button
           className={
@@ -213,6 +271,7 @@ function ZApp() {
         >
           DashBoard
         </button>
+
         <button
           className={
             curNav === "stake"
@@ -239,10 +298,19 @@ function ZApp() {
         </button>
       </div>
 
-      {curNav === "dashboard" ? <Dashboard /> : ""}
+      {curNav === "dashboard" ? (
+        <Dashboard
+          floorPrice={floorPrice}
+          onClickPayBack={onClickPayBack}
+          onClickFloorPrice={onClickFloorPrice}
+          onClickWithdraw={onClickWithdraw}
+        />
+      ) : (
+        ""
+      )}
       {curNav === "stake" ? <Stake onClickStake={onClickStake} /> : ""}
       {curNav === "borrow" ? <Borrow onClickBorrow={onClickBorrow} /> : ""}
-    </div>
+    </Fragment>
   );
 }
 export default ZApp;

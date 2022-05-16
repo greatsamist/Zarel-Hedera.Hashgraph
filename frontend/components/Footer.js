@@ -11,7 +11,11 @@ export default function Footer() {
               <h3>About</h3>
             </li>
             <li>
-              <a href="https://twitter.com/greatsamuelojo" target="_blank">
+              <a
+                href="https://twitter.com/greatsamuelojo"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Twitter
               </a>
             </li>
@@ -32,6 +36,7 @@ export default function Footer() {
               <a
                 href={"https://github.com/greatsamist/Zarel-Hedera.Hashgraph"}
                 target="_blank"
+                rel="noreferrer"
               >
                 Github
               </a>

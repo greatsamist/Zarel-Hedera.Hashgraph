@@ -6,19 +6,20 @@ function Borrow({ onClickBorrow }) {
     <div className={styles.root}>
       <div className={styles.container}>
         <form onSubmit={onClickBorrow}>
-          <select className={styles.list} name="collateral">
+          <select required className={styles.list} name="collateral">
             <option value="" className={styles.li}>
               Choose NFT
             </option>
-            <option value="0xZaer" id="ZKT" className={styles.li}>
+            <option value="0.0.34362684" id="ZKT" className={styles.li}>
               ZRT NFT
             </option>
-            <option value="0xbt" id="BRT" className={styles.li}>
+            <option value="0.0.34362684" id="BRT" className={styles.li}>
               ASAPT NFT
             </option>
           </select>
           <div className={styles.amount}>
             <input
+              required
               className={styles.placeholder}
               type="number"
               min="0"
@@ -32,6 +33,7 @@ function Borrow({ onClickBorrow }) {
           <div className={styles.period}>
             <div className={styles["period__row"]}>
               <input
+                required
                 className={styles["period__input"]}
                 type="radio"
                 id="period_01"
@@ -67,9 +69,7 @@ function Borrow({ onClickBorrow }) {
               </label>
             </div>
           </div>
-          <div>
-            <button className={styles.calculate}>calculate loan amount</button>
-          </div>
+
           <p className={styles.warning}>
             *Note: Your NFT will be locked till your loan is paid back in full.
           </p>
