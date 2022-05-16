@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/stake.module.scss";
 
-function Stake({ onClickStake }) {
+function Stake({ onClickStake, AccountBalance }) {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -67,7 +67,11 @@ function Stake({ onClickStake }) {
             </div>
           </div>
           <div className={styles.stakeBTN}>
-            <button type="submit" className={styles.stake}>
+            <button
+              type="submit"
+              className={styles.stake}
+              onClick={AccountBalance}
+            >
               stake
             </button>
           </div>

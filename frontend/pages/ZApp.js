@@ -308,7 +308,11 @@ function ZApp() {
       ) : (
         ""
       )}
-      {curNav === "stake" ? <Stake onClickStake={onClickStake} /> : ""}
+      {curNav === "stake" ? (
+        <Stake AccountBalance={AccountBalance} onClickStake={onClickStake} />
+      ) : (
+        ""
+      )}
       {curNav === "borrow" ? <Borrow onClickBorrow={onClickBorrow} /> : ""}
     </Fragment>
   );
