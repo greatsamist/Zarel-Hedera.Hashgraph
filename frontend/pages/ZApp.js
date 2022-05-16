@@ -124,6 +124,8 @@ function ZApp() {
     //   period: e.target.period.value,
     // };
     // console.log(data);
+
+ 
     let AccId = AccountId.fromString(accountId);
     let AccIDSol = AccId.toSolidityAddress();
     let provider = walletData[0].getProvider(

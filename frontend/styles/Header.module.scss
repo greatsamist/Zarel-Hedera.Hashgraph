@@ -6,10 +6,14 @@
   justify-items: center;
   align-items: center;
 
-  &__logoText {
+  &__title {
+    display: flex;
+    justify-content: space-between;
     margin-left: 4rem;
-    font-family: "Manrope";
-    font-style: normal;
+  }
+
+  &__logoText {
+    margin-left: 1rem;
     font-weight: 700;
     font-size: 2.6rem;
     color: #9f6ed3;
@@ -21,11 +25,12 @@
     padding: 1rem;
     margin-right: 4rem;
     font-family: inherit;
-    font-size: 1.2rem;
-    color: #ffffff;
-    border-style: none;
-    background: #9f6ed3;
-    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #9f6ed3;
+    border: 1px solid #9f6ed391;
+    background-color: #9f6ed323;
+    border-radius: 3px;
     cursor: pointer;
   }
 

@@ -15,13 +15,14 @@ export default function Homepage() {
           </p>
 
           <Link href="/ZApp">
-            <button className={styles.heroBtn}>Go to App</button>
+            <button className={styles.heroBtn}>Explore</button>
           </Link>
         </div>
         <div className={styles.heroImg}>
           <Image
             src={iPhone13Mockup}
             alt="heroImage"
+            priority={true}
             width={445}
             height={650}
           />
@@ -50,28 +51,26 @@ export default function Homepage() {
         </div>
         <div className={styles.description}>
           <div className={styles.details}>
-            <h4 className={styles.heading4}>Eligibility</h4>
+            <h4 className={styles.heading4}>Withdrawal</h4>
             <p className={styles.paragraph}>
-              Only eligible addresses are allowed to stake tokens and earn in
-              returns. Only addresses that holds the outlined NFT are allowed.
+              Users can withdraw their collateral at any point in time,
+              according to the terms and conditions at the time of withdrawal
             </p>
           </div>
           <div className={styles.details}>
-            <h4 className={styles.heading4}>Eligibility</h4>
+            <h4 className={styles.heading4}>Re-invest</h4>
             <p className={styles.paragraph}>
-              Only eligible addresses are allowed to stake tokens and earn in
-              returns. Only addresses that holds the outlined NFT are allowed.
+              users can re-invest as much time as possible, multiple staking is
+              allowed
             </p>
           </div>
         </div>
         <div className={styles.sectionHeadings}>
           <h3 className={styles.heading3}>About</h3>
           <p className={styles.paragraph}>
-            Fleet is a staking based DE-FI which allows end-users have access to
-            A-class Bonuses enabling them to make more money, our users have
-            access to the best APY. Fleet is a staking based DE-FI which allows
-            end-users have access to A-class Bonuses enabling them to make more
-            money, our users have access to the best APY.
+            Zarel.finance is a staking and borrowing based DE-FI protocol which
+            allows end-users have access to A-class Bonuses enabling them to
+            make more money, our users have access to the best APY.
           </p>
         </div>
       </div>

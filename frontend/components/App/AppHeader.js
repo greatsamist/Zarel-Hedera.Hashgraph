@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "../../styles/Header.module.scss";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../public/zarelicon.png";
 
 export default function AppHeader({
   connected,
@@ -10,9 +12,12 @@ export default function AppHeader({
 }) {
   return (
     <div className={styles.header}>
-      <Link href="./">
-        <div className={styles.header__logoText}>Zarel</div>
-      </Link>
+      <div className={styles.header__title}>
+        <Image src={logo} alt="Zarel logo" height={20} width={40} />
+        <Link href="./">
+          <p className={styles.header__logoText}>Zarel</p>
+        </Link>
+      </div>
       <div className={styles.header__connect}>
         {connected ? (
           <div className={styles.header__connected}>

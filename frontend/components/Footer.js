@@ -11,19 +11,15 @@ export default function Footer() {
               <h3>About</h3>
             </li>
             <li>
-              <a href={"url"}>Medium</a>
+              <a href="https://twitter.com/greatsamuelojo" target="_blank">
+                Twitter
+              </a>
             </li>
             <li>
-              <a href={"url"}>Discord</a>
+              <a href="#">Medium</a>
             </li>
             <li>
-              <a href={"url"}>Twitter</a>
-            </li>
-            <li>
-              <a href={"url"}>Reddit</a>
-            </li>
-            <li>
-              <a href={"url"}>Blog</a>
+              <a href="greatsamist#6269">Discord</a>
             </li>
           </ul>
         </div>
@@ -33,16 +29,18 @@ export default function Footer() {
               <h3>Developers</h3>
             </li>
             <li>
-              <a href={"url"}>Github</a>
+              <a
+                href={"https://github.com/greatsamist/Zarel-Hedera.Hashgraph"}
+                target="_blank"
+              >
+                Github
+              </a>
             </li>
             <li>
-              <a href={"url"}>Docs</a>
+              <a href={"#"}>Docs</a>
             </li>
             <li>
-              <a href={"url"}>Dev Channel</a>
-            </li>
-            <li>
-              <a href={"url"}>Bug Bounty</a>
+              <a href={"#"}>Dev Channel</a>
             </li>
           </ul>
         </div>
@@ -52,10 +50,10 @@ export default function Footer() {
               <h3>Products</h3>
             </li>
             <li>
-              <a href={"url"}>Governance</a>
+              <a href={"#"}>Governance</a>
             </li>
             <li>
-              <a href={"url"}>Trading</a>
+              <a href={"#"}>Trading</a>
             </li>
           </ul>
         </div>
