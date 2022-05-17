@@ -113,7 +113,7 @@ function ZApp() {
       period: e.target.period.value,
     };
 
-    const nft = AccountId.fromString(data.collateral);
+    const nft = AccountId.fromString("0.0.34362684");
     const nftSol = nft.toSolidityAddress();
 
     const accId = AccountId.fromString(accountId);
